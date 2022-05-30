@@ -10,8 +10,21 @@ namespace DDDInPractice.Logic
 {
     public sealed class SnackMachine : Entity
     {
-        public Money MoneyInside { get; private set; } = None;
-        public Money MoneyInTransaction { get; private set; } = None;
+        public Money MoneyInside { get; private set; }
+        public Money MoneyInTransaction { get; private set; }
+        public IList<Slot> Slots { get; private set; }
+
+        public SnackMachine()
+        {
+            MoneyInside = None;
+            MoneyInTransaction = None;
+            Slots = new List<Slot>
+            {
+                new Slot(1, 0, 0m, null, null),
+                new Slot(2, 0, 0m, null, null),
+                new Slot(3, 0, 0m, null, null),
+            };
+        }
 
         public void InsertMoney(Money money)
         {
@@ -27,10 +40,19 @@ namespace DDDInPractice.Logic
             MoneyInTransaction = None;
         }
 
-        public void BuySnack()
+        public void BuySnack(int position)
         {
             MoneyInside += MoneyInTransaction;
             MoneyInTransaction = None;
+            Slots.Single(x => x.Position == position).Quantity--;
+        }
+
+        public void LoadSnack(int position, Snack snack, int quantity, decimal price)
+        {
+            var slot = Slots.Single(x => x.Position == position);
+            slot.Quantity = quantity;
+            slot.Price = price;
+            slot.Snack = snack;
         }
 
     }

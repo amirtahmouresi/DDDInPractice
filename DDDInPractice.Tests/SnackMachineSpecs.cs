@@ -48,17 +48,17 @@ namespace DDDInPractice.Tests
         }
 
         [Fact]
-        public void money_in_transaction_goes_to_money_inside_after_purchase()
+        public void Buysanck_trades_inserted_money_for_snack()
         {
             var snackMachine = new SnackMachine();
-
+            snackMachine.LoadSnack(1, new Snack("Some snack"), 10, 1m);
             snackMachine.InsertMoney(Dollar);
-            snackMachine.InsertMoney(Dollar);
 
-            snackMachine.BuySnack();
+            snackMachine.BuySnack(1);
 
-            snackMachine.MoneyInside.Amount.Should().Be(2m);
+            snackMachine.MoneyInside.Amount.Should().Be(1m);
             snackMachine.MoneyInTransaction.Should().Be(None);
+            snackMachine.Slots.Single(x => x.Position == 1).Quantity.Should().Be(9);
         }
     }
 }

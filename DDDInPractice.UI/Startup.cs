@@ -15,11 +15,11 @@ namespace DDDInPractice.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddScoped<SnackMachine>();
-            services.AddScoped<SnackMachineViewModel>();
+            services.AddSingleton<SnackMachine>();
+            services.AddSingleton<SnackMachineViewModel>();
 
             services.AddDbContext<ApplicationDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("MyConnection")), ServiceLifetime.Singleton);
         }
 
         public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
