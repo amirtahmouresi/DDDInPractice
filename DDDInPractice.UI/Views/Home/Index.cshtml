@@ -1,0 +1,103 @@
+﻿@model DDDInPractice.UI.Models.SnackMachineViewModel
+
+@{
+    ViewData["Title"] = "Snack Machine";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <a class="btn btn-success w-100" href="/Home/BuySnack">Buy Snack</a>
+            </div>
+            <div class="row">
+                <p class="text-center mt-4 mb-4">
+                    <strong>Money Inserted: @Model.MoneyInTransaction</strong>
+                </p>
+            </div>
+            <div class="row">
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=onecent">Put ¢1</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=tencent">Put ¢10</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=quarter">Put ¢25</a>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=dollar">Put $1</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=fivedollar">Put $5</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-secondary w-100" href="/Home/InsertMoney?amount=twentydollar">Put $20</a>
+                    </div>
+                </div>
+            
+            <div class="row">
+                <p class="mt-3 mb-3">
+                    <a class="btn btn-primary w-100" href="/Home/ReturnMoney">Return Money</a>
+                </p>
+            </div>
+            <div class="row">
+                <p class="text-center mt-4 mb-4">
+                    @Model.Message
+                </p>
+            </div>
+            <div class="row">
+                <p class="text-center mt-4 mb-4">
+                    <strong>Money Inside: @Model.MoneyInside.ToString()</strong>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/1c.png" width="100"/>
+                        <label>@Model.MoneyInside.OneCentCount</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/10c.png" width="100"/>
+                        <label>@Model.MoneyInside.TenCentCount</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/25c.png" width="100"/>
+                        <label>@Model.MoneyInside.QuarterCount</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/1d.png" width="100"/>
+                        <label>@Model.MoneyInside.OneDollarCount</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/5d.png" width="100"/>
+                        <label>@Model.MoneyInside.FiveDollarCount</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <img src="~/Images/20d.png" width="100"/>
+                        <label>@Model.MoneyInside.TwentyDollarCount</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+</div>
