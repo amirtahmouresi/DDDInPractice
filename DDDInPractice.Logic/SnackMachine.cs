@@ -8,22 +8,32 @@ using static DDDInPractice.Logic.Money;
 
 namespace DDDInPractice.Logic
 {
-    public sealed class SnackMachine : Entity
+    public sealed class SnackMachine : AggregateRoot
     {
         public Money MoneyInside { get; private set; }
-        public Money MoneyInTransaction { get; private set; }
-        public IList<Slot> Slots { get; private set; }
+        public decimal MoneyInTransaction { get; private set; }
+        protected IList<Slot> Slots { get; private set; }
 
         public SnackMachine()
         {
             MoneyInside = None;
-            MoneyInTransaction = None;
+            MoneyInTransaction = 0;
             Slots = new List<Slot>
             {
-                new Slot(1, 0, 0m, null, null),
-                new Slot(2, 0, 0m, null, null),
-                new Slot(3, 0, 0m, null, null),
+                new Slot(1, null),
+                new Slot(2, null),
+                new Slot(3, null)
             };
+        }
+
+        public SnackPile GetSnackPile(int position)
+        {
+            return GetSlot(position).SnackPile;
+        }
+
+        private Slot GetSlot(int position)
+        {
+            return Slots.Single(x => x.Position == position);
         }
 
         public void InsertMoney(Money money)
@@ -32,27 +42,41 @@ namespace DDDInPractice.Logic
             if (!coinsAndNotes.Contains(money))
                 throw new InvalidOperationException();
 
-            MoneyInTransaction += money;
+            MoneyInside += money;
+            MoneyInTransaction += money.Amount;
         }
 
         public void ReturnMoney()
         {
-            MoneyInTransaction = None;
+            var moneyToReturn = MoneyInside.Allocate(MoneyInTransaction);
+            MoneyInside -= moneyToReturn;
+            MoneyInTransaction = 0;
         }
 
         public void BuySnack(int position)
         {
-            MoneyInside += MoneyInTransaction;
-            MoneyInTransaction = None;
-            Slots.Single(x => x.Position == position).Quantity--;
+            var slot = GetSlot(position);
+            if (slot.SnackPile.Price > MoneyInTransaction)
+                throw new InvalidOperationException();
+            slot.SnackPile = slot.SnackPile.SubtractOne();
+
+            var change = MoneyInside.Allocate(MoneyInTransaction - slot.SnackPile.Price);
+            if (change.Amount < (MoneyInTransaction - slot.SnackPile.Price))
+                throw new InvalidOperationException();
+            MoneyInside -= change;
+
+            MoneyInTransaction = 0;
         }
 
-        public void LoadSnack(int position, Snack snack, int quantity, decimal price)
+        public void LoadSnack(int position, SnackPile snackPile)
         {
-            var slot = Slots.Single(x => x.Position == position);
-            slot.Quantity = quantity;
-            slot.Price = price;
-            slot.Snack = snack;
+            var slot = GetSlot(position);
+            slot.SnackPile = snackPile;
+        }
+
+        public void LoadMoney(Money money)
+        {
+            MoneyInside += money;
         }
 
     }

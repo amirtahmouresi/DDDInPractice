@@ -8,19 +8,15 @@ namespace DDDInPractice.Logic
 {
     public sealed class Slot : Entity
     {
-        public int Position { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public int Position { get; private set; }
 
-        public Snack Snack { get; set; }
-        public SnackMachine SnackMachine { get; set; }
+        public SnackPile SnackPile { get; set; }
+        public SnackMachine SnackMachine { get; private set; }
 
-        public Slot(int position, int quantity, decimal price, Snack snack, SnackMachine snackMachine)
+        public Slot(int position ,SnackMachine snackMachine)
         {
             Position = position;
-            Quantity = quantity;
-            Price = price;
-            Snack = snack;
+            SnackPile = new SnackPile(null, 0, 0m);
             SnackMachine = snackMachine;
         }
     }

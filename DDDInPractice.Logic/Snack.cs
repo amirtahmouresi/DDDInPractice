@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DDDInPractice.Logic
 {
-    public sealed class Snack : Entity
+    public sealed class Snack : AggregateRoot
     {
         public string Name { get; private set; }
 
