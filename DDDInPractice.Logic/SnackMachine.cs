@@ -12,18 +12,22 @@ namespace DDDInPractice.Logic
     {
         public Money MoneyInside { get; private set; }
         public decimal MoneyInTransaction { get; private set; }
-        protected IList<Slot> Slots { get; private set; }
+        private IList<Slot> _slots;
+        public IEnumerable<Slot> Slots => _slots.ToList();
 
         public SnackMachine()
         {
             MoneyInside = None;
             MoneyInTransaction = 0;
-            Slots = new List<Slot>
-            {
-                new Slot(1, null),
-                new Slot(2, null),
-                new Slot(3, null)
-            };
+            //_slots = new List<Slot>();
+            //AddSlot(1);
+            //AddSlot(2);
+            //AddSlot(3);
+        }
+
+        private void AddSlot(int position)
+        {
+            _slots.Add(new Slot(position, null));
         }
 
         public SnackPile GetSnackPile(int position)

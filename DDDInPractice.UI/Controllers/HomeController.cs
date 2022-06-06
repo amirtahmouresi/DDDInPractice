@@ -1,4 +1,5 @@
 ﻿using DDDInPractice.Logic;
+using DDDInPractice.Logic.Service.SnackMachines;
 using DDDInPractice.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,16 +9,19 @@ namespace DDDInPractice.UI.Controllers
     public class HomeController : Controller
     {
   
-        private readonly SnackMachineViewModel _SnackMachineVM;
+        private SnackMachineViewModel _SnackMachineVM;
+        private readonly ISnackMachineService _SnackMachineService;
 
-        public HomeController(SnackMachineViewModel snackMachineVM)
+        public HomeController(ISnackMachineService snackMachineService)
         {
-
-            _SnackMachineVM = snackMachineVM;
+            _SnackMachineService = snackMachineService;
+            var snackMachine = _SnackMachineService.Get();
+            _SnackMachineVM = new SnackMachineViewModel(snackMachine);
         }
 
         public IActionResult Index()
         {
+            
             return View(_SnackMachineVM);
         }
 
@@ -26,22 +30,22 @@ namespace DDDInPractice.UI.Controllers
             switch (amount)
             {
                 case "onecent":
-                    _SnackMachineVM.InsertCent(Money.OneCent);
+                    _SnackMachineVM.InsertMoney(Money.OneCent);
                     break;
                 case "tencent":
-                    _SnackMachineVM.InsertCent(Money.TenCent);
+                    _SnackMachineVM.InsertMoney(Money.TenCent);
                     break;
                 case "quarter":
-                    _SnackMachineVM.InsertCent(Money.Quarter);
+                    _SnackMachineVM.InsertMoney(Money.Quarter);
                     break;
                 case "dollar":
-                    _SnackMachineVM.InsertCent(Money.Dollar);
+                    _SnackMachineVM.InsertMoney(Money.Dollar);
                     break;
                 case "fivedollar":
-                    _SnackMachineVM.InsertCent(Money.FiveDollar);
+                    _SnackMachineVM.InsertMoney(Money.FiveDollar);
                     break;
                 case "twentydollar":
-                    _SnackMachineVM.InsertCent(Money.TwentyDollar);
+                    _SnackMachineVM.InsertMoney(Money.TwentyDollar);
                     break;
                 default:
                     return View("Index", _SnackMachineVM);
@@ -60,6 +64,7 @@ namespace DDDInPractice.UI.Controllers
         public IActionResult BuySnack()
         {
             _SnackMachineVM.BuySnack();
+            _SnackMachineService.Edit(_SnackMachineVM.GetSnackMahine());
             return View("Index", _SnackMachineVM);
         }
     }

@@ -13,11 +13,16 @@ namespace DDDInPractice.Logic
         public SnackPile SnackPile { get; set; }
         public SnackMachine SnackMachine { get; private set; }
 
-        public Slot(int position ,SnackMachine snackMachine)
+        protected Slot()
+        {
+
+        }
+        public Slot(int position ,SnackMachine snackMachine) : this()
         {
             Position = position;
             SnackPile = new SnackPile(null, 0, 0m);
             SnackMachine = snackMachine;
         }
+
     }
 }

@@ -9,21 +9,39 @@ using System.Threading.Tasks;
 
 namespace DDDInPractice.Logic.Repository
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : AggregateRoot
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : AggregateRoot
     {
         private readonly ApplicationDBContext _context;
-        private readonly DbSet<T> _dbset;
+        private readonly DbSet<TEntity> _dbSet;
+        private bool _isTrackingEnabled = false;
+
+
         public GenericRepository(ApplicationDBContext context)
         {
             _context = context;
-            _dbset = context.Set<T>();
+            _dbSet = _context.Set<TEntity>();
         }
-
-
-        public T GetById(long id)
+        public IQueryBuilder<TEntity> Get()
         {
-            return _dbset.Find(id);
+            var query = _isTrackingEnabled ? _dbSet : _dbSet.AsNoTracking();
+
+            return new QueryBuilder<TEntity>(query);
+        }
+        public TEntity GetById(long id)
+        {
+            return _dbSet.Find(id);
         }
 
+        public virtual IUpdateQueryBuilder<TEntity> Update(TEntity entityToUpdate)
+        {
+            var entry = _context.Entry(entityToUpdate);
+            if (entry.State == EntityState.Detached)
+            {
+                _dbSet.Attach(entityToUpdate);
+            }
+            entry.State = EntityState.Modified;
+
+            return new UpdateQueryBuilder<TEntity>(entityToUpdate, entry);
+        }
     }
 }

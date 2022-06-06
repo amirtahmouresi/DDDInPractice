@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace DDDInPractice.Logic.Interface.Repository
 {
-    public interface IGenericRepository<T> where T : AggregateRoot
+    public interface IFetchQueryBuilder<TEntity>
     {
-        IQueryBuilder<T> Get();
-        T GetById(long id);
-        IUpdateQueryBuilder<T> Update(T entityToUpdate);
+        List<TEntity> ToList();
+        Task<List<TEntity>> ToListAsync();
+        TEntity First();
+        Task<TEntity> FirstAsync();
 
     }
 }

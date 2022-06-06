@@ -1,5 +1,10 @@
 ﻿using DDDInPractice.Logic;
 using DDDInPractice.Logic.Context;
+using DDDInPractice.Logic.Interface.Repository;
+using DDDInPractice.Logic.Interface.Repository.SnackMachines;
+using DDDInPractice.Logic.Repository;
+using DDDInPractice.Logic.Repository.SnackMachines;
+using DDDInPractice.Logic.Service.SnackMachines;
 using DDDInPractice.UI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +20,10 @@ namespace DDDInPractice.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<SnackMachine>();
-            services.AddSingleton<SnackMachineViewModel>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<ISnackMachineRepository, SnackMachineRepository>();
+            services.AddScoped<ISnackMachineService, SnackMachineService>();
 
             services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")), ServiceLifetime.Singleton);

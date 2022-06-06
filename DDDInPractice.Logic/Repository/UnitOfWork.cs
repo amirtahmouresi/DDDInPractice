@@ -1,7 +1,5 @@
 ﻿using DDDInPractice.Logic.Context;
 using DDDInPractice.Logic.Interface.Repository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +25,7 @@ namespace DDDInPractice.Logic.Repository
             return _context.SaveChanges();
         }
 
-        private void DetachAll()
-        {
-            EntityEntry[] entityEntries = _context.ChangeTracker.Entries().ToArray();
-
-            foreach (EntityEntry entityEntry in entityEntries)
-            {
-                entityEntry.State = EntityState.Detached;
-            }
-        }
-
         IGenericRepository<T> IUnitOfWork.GetNewRepository<T>() =>
-            new GenericRepository<T>(_context, _mapper);
+            new GenericRepository<T>(_context);
     }
 }

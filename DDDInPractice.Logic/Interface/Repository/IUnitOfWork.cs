@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DDDInPractice.Logic.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace DDDInPractice.Logic.Interface.Repository
 {
     public interface IUnitOfWork : IDisposable
     {
+        IGenericRepository<T> GetNewRepository<T>() where T : AggregateRoot;
+
         int SaveChanges();
     }
 }

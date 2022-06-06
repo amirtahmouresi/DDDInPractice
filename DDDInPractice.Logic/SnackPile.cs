@@ -12,7 +12,8 @@ namespace DDDInPractice.Logic
         public decimal Price { get;}
         public Snack Snack { get;}
 
-        public SnackPile(Snack snack, int quantity, decimal price)
+        private SnackPile() { }
+        public SnackPile(Snack snack, int quantity, decimal price) : this()
         {
             if (price % 0.01m > 0)
                 throw new InvalidOperationException();

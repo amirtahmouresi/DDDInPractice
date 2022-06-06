@@ -26,6 +26,9 @@ namespace DDDInPractice.Logic.Configurations.SnackMachineConfigurations
                     money.Property(x => x.TwentyDollarCount).HasColumnName("TwentyDollarCount");
                 });
             builder.Ignore(x => x.MoneyInTransaction);
+
+            var navigation = builder.Metadata.FindNavigation(nameof(SnackMachine.Slots));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

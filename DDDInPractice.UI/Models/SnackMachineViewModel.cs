@@ -1,5 +1,8 @@
 ﻿using DDDInPractice.Logic;
 using DDDInPractice.Logic.Context;
+using DDDInPractice.Logic.Interface.Repository;
+using DDDInPractice.Logic.Interface.Repository.SnackMachines;
+using DDDInPractice.Logic.Repository.SnackMachines;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -7,8 +10,8 @@ namespace DDDInPractice.UI.Models
 {
     public class SnackMachineViewModel
     {
-        private readonly ApplicationDBContext _context;
         private readonly SnackMachine _SnackMachine;
+
         public string MoneyInTransaction => _SnackMachine.MoneyInTransaction.ToString();
         public Money MoneyInside => _SnackMachine.MoneyInside;
 
@@ -17,13 +20,12 @@ namespace DDDInPractice.UI.Models
             get { return _message; }
             private set { _message = value; }
         }
-        public SnackMachineViewModel(ApplicationDBContext context)
+        public SnackMachineViewModel(SnackMachine snackMachine)
         {
-            _context = context;
-            _SnackMachine = context.Set<SnackMachine>().FirstOrDefault();
+            _SnackMachine = snackMachine;
         }
 
-        public void InsertCent(Money money)
+        public void InsertMoney(Money money)
         {
             _SnackMachine.InsertMoney(money);
             Message = "You have inserted: " + money;
@@ -37,20 +39,13 @@ namespace DDDInPractice.UI.Models
 
         public void BuySnack()
         {
-            _SnackMachine.BuySnack(1);
-            _context.SaveChanges();
-            DetachAll();
+            _SnackMachine.BuySnack(3);
             Message = "You have bought snack";
         }
 
-        private void DetachAll()
+        public SnackMachine GetSnackMahine()
         {
-            EntityEntry[] entityEntries = _context.ChangeTracker.Entries().ToArray();
-
-            foreach (EntityEntry entityEntry in entityEntries)
-            {
-                entityEntry.State = EntityState.Detached;
-            }
+            return _SnackMachine;
         }
     }
 }
