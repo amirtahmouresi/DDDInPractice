@@ -24,6 +24,7 @@ namespace DDDInPractice.UI
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<ISnackMachineRepository, SnackMachineRepository>();
             services.AddScoped<ISnackMachineService, SnackMachineService>();
+            services.AddScoped<SnackMachineViewModel>();
 
             services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")), ServiceLifetime.Singleton);

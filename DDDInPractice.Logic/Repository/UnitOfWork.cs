@@ -22,7 +22,8 @@ namespace DDDInPractice.Logic.Repository
 
         public int SaveChanges()
         {
-            return _context.SaveChanges();
+            var isSaved = _context.SaveChanges();
+            return isSaved;
         }
 
         IGenericRepository<T> IUnitOfWork.GetNewRepository<T>() =>
