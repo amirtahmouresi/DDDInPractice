@@ -137,6 +137,13 @@ namespace DDDInPractice.Logic.Repository
             return this;
         }
 
+        public IUpdateQueryBuilder<TEntity> UpdateOwnedEntity<TProp>(Expression<Func<TEntity, TProp>> expression) where TProp : class
+        {
+            var ownedEntity = _entityEntry.Reference(expression);
+            ownedEntity.TargetEntry.State = EntityState.Modified;
+            return this;
+        }
+
 
         private List<EntityEntry> CloneAsEntry(IEnumerable data)
         {

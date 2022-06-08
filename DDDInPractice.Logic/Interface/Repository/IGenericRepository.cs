@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DDDInPractice.Logic.Interface.Repository
 {
-    public interface IGenericRepository<T> where T : AggregateRoot
+    public interface IGenericRepository<TEntity> where TEntity : AggregateRoot
     {
-        IQueryBuilder<T> Get();
-        T GetById(long id);
-        IUpdateQueryBuilder<T> Update(T entityToUpdate);
+        IQueryBuilder<TEntity> Get();
+        TEntity GetById(long id);
+        IUpdateQueryBuilder<TEntity> Update(TEntity entityToUpdate);
 
     }
 }

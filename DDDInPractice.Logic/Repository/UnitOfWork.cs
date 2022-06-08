@@ -1,5 +1,9 @@
 ﻿using DDDInPractice.Logic.Context;
 using DDDInPractice.Logic.Interface.Repository;
+using DDDInPractice.Logic.Interface.Repository.SnackMachines;
+using DDDInPractice.Logic.Repository.SnackMachines;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +20,7 @@ namespace DDDInPractice.Logic.Repository
         {
             _context = context;
         }
+
         public void Dispose()
         {
         }
@@ -23,7 +28,18 @@ namespace DDDInPractice.Logic.Repository
         public int SaveChanges()
         {
             var isSaved = _context.SaveChanges();
+            DetachAll();
             return isSaved;
+        }
+
+        private void DetachAll()
+        {
+            EntityEntry[] entityEntries = _context.ChangeTracker.Entries().ToArray();
+
+            foreach (EntityEntry entityEntry in entityEntries)
+            {
+                entityEntry.State = EntityState.Detached;
+            }
         }
 
         IGenericRepository<T> IUnitOfWork.GetNewRepository<T>() =>

@@ -43,7 +43,7 @@ namespace DDDInPractice.UI.Models
 
         public void BuySnack()
         {
-            _SnackMachine.BuySnack(3);
+            _SnackMachine.BuySnack(1);
             _SnackMachineService.Edit(_SnackMachine);
             Message = "You have bought snack";
         }

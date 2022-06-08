@@ -2,6 +2,7 @@
 using DDDInPractice.Logic.Context;
 using DDDInPractice.Logic.Interface.Repository;
 using DDDInPractice.Logic.Interface.Repository.SnackMachines;
+using DDDInPractice.Logic.Mapper.Ioc;
 using DDDInPractice.Logic.Repository;
 using DDDInPractice.Logic.Repository.SnackMachines;
 using DDDInPractice.Logic.Service.SnackMachines;
@@ -25,6 +26,8 @@ namespace DDDInPractice.UI
             services.AddScoped<ISnackMachineRepository, SnackMachineRepository>();
             services.AddScoped<ISnackMachineService, SnackMachineService>();
             services.AddScoped<SnackMachineViewModel>();
+
+            //services.AddMapperConfigurations();
 
             services.AddDbContext<ApplicationDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")), ServiceLifetime.Singleton);

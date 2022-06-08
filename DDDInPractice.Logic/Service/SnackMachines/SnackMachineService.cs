@@ -13,7 +13,7 @@ namespace DDDInPractice.Logic.Service.SnackMachines
         SnackMachine Get();
         void Edit(SnackMachine model);
     }
-    public class SnackMachineService : ISnackMachineService
+    public class SnackMachineService : ISnackMachineService, IDisposable
     {
         private readonly IUnitOfWork _uow;
         private readonly ISnackMachineRepository _SnackMachineRepository;
@@ -34,8 +34,14 @@ namespace DDDInPractice.Logic.Service.SnackMachines
 
         public void Edit(SnackMachine model)
         {
-            _SnackMachineRepository.Update(model);
+            _SnackMachineRepository.Update(model)
+                .UpdateOwnedEntity(x => x.MoneyInside);
             _uow.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            _uow.Dispose();
         }
     }
 }
