@@ -35,7 +35,8 @@ namespace DDDInPractice.Logic.Service.SnackMachines
         public void Edit(SnackMachine model)
         {
             _SnackMachineRepository.Update(model)
-                .UpdateOwnedEntity(x => x.MoneyInside);
+                .UpdateOwnedEntity(x => x.MoneyInside)
+                .UpdateRelations(x => x.Slots);
             _uow.SaveChanges();
         }
 

@@ -144,6 +144,26 @@ namespace DDDInPractice.Logic.Repository
             return this;
         }
 
+        //public IUpdateQueryBuilder<TEntity> UpdateInnerOwnedEntity<TParent, TProp>(
+        //    TEntity rootEntity,
+        //    Expression<Func<TProp, TParent>> getChildValueObject,
+        //    Expression<Func<TEntity, TParent>> getParentEntity)
+        //    where TParent : class where TProp : class
+        //{
+        //    var values = new List<ValueObject>();
+
+        //    for (int i = 0; i < getParentValueObjectArray.Length; i++)
+        //    {
+        //        values.Add(getChildValueObject.Compile()
+        //          .Invoke(getParentEntity.Compile().Invoke(rootEntity)));
+        //    }
+
+        //    _entityEntry.Reference(getParentEntity)
+        //          .TargetEntry.Reference(getChildValueObject)
+        //          .CurrentValue = values[i];
+
+        //    context.Entry(rootEntity).State = EntityState.Modified;
+        //}
 
         private List<EntityEntry> CloneAsEntry(IEnumerable data)
         {
