@@ -27,9 +27,9 @@ namespace DDDInPractice.Logic.Repository
 
         public int SaveChanges()
         {
-            var isSaved = _context.SaveChanges();
+            var savedCount = _context.SaveChanges();
             DetachAll();
-            return isSaved;
+            return savedCount;
         }
 
         private void DetachAll()

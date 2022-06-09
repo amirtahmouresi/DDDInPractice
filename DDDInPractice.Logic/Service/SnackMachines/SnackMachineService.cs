@@ -36,8 +36,9 @@ namespace DDDInPractice.Logic.Service.SnackMachines
         {
             _SnackMachineRepository.Update(model)
                 .UpdateOwnedEntity(x => x.MoneyInside)
-                .UpdateRelations(x => x.Slots);
-            _uow.SaveChanges();
+                .UpdateRelations(x => x.Slots)
+                .UpdateInnerOwnedEntity(x => x.Slots, x => x.SnackPile);
+            var savedCount = _uow.SaveChanges();
         }
 
         public void Dispose()

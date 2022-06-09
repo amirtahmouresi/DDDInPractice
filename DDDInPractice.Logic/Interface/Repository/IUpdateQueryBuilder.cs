@@ -18,5 +18,9 @@ namespace DDDInPractice.Logic.Interface.Repository
         IUpdateQueryBuilder<TEntity> OnlyIncludeItems(params Expression<Func<TEntity, object>>[] expressions);
         public IUpdateQueryBuilder<TEntity> UpdateRelations(Expression<Func<TEntity, IEnumerable<IEntity>>> expression);
         IUpdateQueryBuilder<TEntity> UpdateOwnedEntity<TProp>(Expression<Func<TEntity, TProp>> expression) where TProp : class;
+        IUpdateQueryBuilder<TEntity> UpdateInnerOwnedEntity<TParent, TProp>(
+            Expression<Func<TEntity, IEnumerable<TParent>>> getParentEntity,
+            Expression<Func<TParent, TProp>> getChildValueObject)
+            where TParent : class where TProp : class;
     }
 }
