@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 using static DDDInPractice.Logic.Money;
+using static DDDInPractice.Logic.Snack;
 
 namespace DDDInPractice.Tests
 {
@@ -51,7 +52,7 @@ namespace DDDInPractice.Tests
         public void Buysanck_trades_inserted_money_for_snack()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnack(1, new SnackPile(new Snack("Some snack"), 10, 1m));
+            snackMachine.LoadSnack(1, new SnackPile(Chocolate, 10, 1m));
             snackMachine.InsertMoney(Dollar);
 
             snackMachine.BuySnack(1);
@@ -75,7 +76,7 @@ namespace DDDInPractice.Tests
         public void Cannot_make_purchase_if_not_enogh_money_inserted()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnack(1, new SnackPile(new Snack("Some snack"), 1, 2m));
+            snackMachine.LoadSnack(1, new SnackPile(Chocolate, 1, 2m));
             snackMachine.InsertMoney(Dollar);
 
             Action action = () => snackMachine.BuySnack(1);
@@ -104,7 +105,7 @@ namespace DDDInPractice.Tests
         public void After_purchase_should_return_change_money()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnack(1, new SnackPile(new Snack("some snack"), 1, 0.5m));
+            snackMachine.LoadSnack(1, new SnackPile(Chocolate, 1, 0.5m));
             snackMachine.LoadMoney(TenCent * 10);
             snackMachine.InsertMoney(Dollar);
 
@@ -118,7 +119,7 @@ namespace DDDInPractice.Tests
         public void Cannot_buy_snack_if_not_enogh_change()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnack(1, new SnackPile(new Snack("some snack"), 1, 0.5m));
+            snackMachine.LoadSnack(1, new SnackPile(Chocolate, 1, 0.5m));
             snackMachine.InsertMoney(Dollar);
 
             Action action = () => snackMachine.BuySnack(1);

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
+using static DDDInPractice.Logic.Snack;
+
 namespace DDDInPractice.Tests
 {
     public class SnackPileSpecs
@@ -19,7 +21,7 @@ namespace DDDInPractice.Tests
         public void Snack_could_not_have_undefined_price(decimal price)
         {
             var snackMachine = new SnackMachine();
-            Action action = () => snackMachine.LoadSnack(1, new SnackPile(new Snack("some snack"), 10, price));
+            Action action = () => snackMachine.LoadSnack(1, new SnackPile(Chocolate, 10, price));
 
             action.Should().Throw<InvalidOperationException>();
         }
@@ -29,7 +31,7 @@ namespace DDDInPractice.Tests
         public void Snack_could_not_have_negative_quantity(int quantity)
         {
             var snackMachine = new SnackMachine();
-            Action action = () => snackMachine.LoadSnack(1, new SnackPile(new Snack("some snack"), quantity, 1));
+            Action action = () => snackMachine.LoadSnack(1, new SnackPile(Chocolate, quantity, 1));
 
             action.Should().Throw<InvalidOperationException>();
         }

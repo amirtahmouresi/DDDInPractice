@@ -8,7 +8,7 @@ namespace DDDInPractice.Logic
 {
     public abstract class Entity : IEntity
     {
-        public long Id { get; private set; }
+        public long Id { get; protected set; }
 
         public override bool Equals(object obj)
         {

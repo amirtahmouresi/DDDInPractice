@@ -10,7 +10,7 @@ namespace DDDInPractice.Logic.Service.SnackMachines
 {
     public interface ISnackMachineService
     {
-        SnackMachine Get();
+        SnackMachine GetById(long id);
         void Edit(SnackMachine model);
     }
     public class SnackMachineService : ISnackMachineService, IDisposable
@@ -24,9 +24,10 @@ namespace DDDInPractice.Logic.Service.SnackMachines
             _SnackMachineRepository = snackMachineRepository;
         }
 
-        public SnackMachine Get()
+        public SnackMachine GetById(long id)
         {
             return _SnackMachineRepository.Get()
+                .Filter(x => x.Id == id)
                 .Include(x => x.Slots)
                 .ThenInclude(x => x.SnackPile.Snack)
                 .First();

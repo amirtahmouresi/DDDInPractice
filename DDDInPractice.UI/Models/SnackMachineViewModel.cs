@@ -26,7 +26,7 @@ namespace DDDInPractice.UI.Models
         public SnackMachineViewModel(ISnackMachineService snackMachineService)
         {
             _SnackMachineService = snackMachineService;
-            _SnackMachine = _SnackMachineService.Get();
+            _SnackMachine = _SnackMachineService.GetById(1);
         }
 
         public void InsertMoney(Money money)
