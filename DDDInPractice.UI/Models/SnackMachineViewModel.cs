@@ -18,6 +18,16 @@ namespace DDDInPractice.UI.Models
         public decimal MoneyInTransaction => _SnackMachine.MoneyInTransaction;
         public Money MoneyInside => _SnackMachine.MoneyInside;
 
+        public IReadOnlyCollection<SnackPileViewModel> Piles
+        {
+            get
+            {
+                return _SnackMachine.GetAllSnackPiles()
+                    .Select(x => new SnackPileViewModel(x))
+                    .ToList();
+            }
+        }
+
         private string _message = "";
         public string Message { 
             get { return _message; }
@@ -41,16 +51,19 @@ namespace DDDInPractice.UI.Models
             Message = "Money was returned";
         }
 
-        public void BuySnack()
+        public void BuySnack(string positionString)
         {
-            _SnackMachine.BuySnack(1);
+            int position = int.Parse(positionString);
+            var error = _SnackMachine.CanBuySnack(position);
+            if (error != String.Empty)
+            {
+                Message = error;
+                return;
+            }
+            _SnackMachine.BuySnack(position);
             _SnackMachineService.Edit(_SnackMachine);
             Message = "You have bought snack";
         }
 
-        public SnackMachine GetSnackMahine()
-        {
-            return _SnackMachine;
-        }
     }
 }

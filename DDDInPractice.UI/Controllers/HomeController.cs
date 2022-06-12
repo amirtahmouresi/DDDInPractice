@@ -68,10 +68,10 @@ namespace DDDInPractice.UI.Controllers
             return View("Index", _SnackMachineVM);
         }
 
-        public IActionResult BuySnack()
+        public IActionResult BuySnack(string position)
         {
             AssignMoneyInTransaction();
-            _SnackMachineVM.BuySnack();
+            _SnackMachineVM.BuySnack(position);
             return View("Index", _SnackMachineVM);
         }
 

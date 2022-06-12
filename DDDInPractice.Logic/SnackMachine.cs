@@ -35,6 +35,14 @@ namespace DDDInPractice.Logic
             return GetSlot(position).SnackPile;
         }
 
+        public IReadOnlyCollection<SnackPile> GetAllSnackPiles()
+        {
+            return _slots
+                .OrderBy(x => x.Position)
+                .Select(x => x.SnackPile)
+                .ToList();
+        }
+
         private Slot GetSlot(int position)
         {
             return Slots.Single(x => x.Position == position);
@@ -57,16 +65,33 @@ namespace DDDInPractice.Logic
             MoneyInTransaction = 0;
         }
 
+        public string CanBuySnack(int position)
+        {
+            SnackPile snackPile = GetSnackPile(position);
+
+            if (snackPile.Quantity == 0)
+                return "The snack pile is empty";
+
+            if (MoneyInTransaction < snackPile.Price)
+                return "Not enough money";
+
+            if (MoneyInside.CanAllocate(MoneyInTransaction - snackPile.Price) == false)
+                return "Not enough change";
+
+            return String.Empty;
+        }
+
         public void BuySnack(int position)
         {
-            var slot = GetSlot(position);
-            if (slot.SnackPile.Price > MoneyInTransaction)
+            var error = CanBuySnack(position);
+            if (error != String.Empty)
                 throw new InvalidOperationException();
+
+            var slot = GetSlot(position);
             slot.SnackPile = slot.SnackPile.SubtractOne();
 
             var change = MoneyInside.Allocate(MoneyInTransaction - slot.SnackPile.Price);
-            if (change.Amount < (MoneyInTransaction - slot.SnackPile.Price))
-                throw new InvalidOperationException();
+
             MoneyInside -= change;
 
             MoneyInTransaction = 0;

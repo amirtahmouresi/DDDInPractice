@@ -16,3 +16,22 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.mr-50-percent{
+    margin-right:50%;
+}
+
+.snack-container {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    margin: auto;
+    justify-content: space-between;
+    margin-bottom:30px;
+}
+
+.snack-details{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+}
